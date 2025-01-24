@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import Products from "./views/Products";
-import NewProduct from "./views/NewProduct";
+import ProductsView from "./views/ProductsView";
+import NewProductView, {
+  action as newProductAction,
+} from "./views/NewProductView";
 
 export const router = createBrowserRouter([
   {
@@ -10,11 +12,12 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Products />,
+        element: <ProductsView />,
       },
       {
         path: "productos/agregar",
-        element: <NewProduct />,
+        element: <NewProductView />,
+        action: newProductAction,
       },
     ],
   },
