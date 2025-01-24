@@ -1,11 +1,17 @@
-import { Link, useLoaderData } from "react-router-dom";
-import { getProducts } from "../services/ProductService";
+import { ActionFunctionArgs, Link, useLoaderData } from "react-router-dom";
+import { getProducts, updateAvailability } from "../services/ProductService";
 import ProductDetails from "../components/ProductDetails";
 import { Product } from "../types";
 
 export async function loader() {
   const products = await getProducts();
   return products;
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const data = Object.fromEntries(await request.formData());
+  await updateAvailability(+data.id);
+  return "";
 }
 
 export default function ProductsView() {
@@ -21,8 +27,8 @@ export default function ProductsView() {
           Agregar producto
         </Link>
       </div>
-      {products.length ? (
-        <div className="p-2">
+      <div className="p-2">
+        {products.length ? (
           <table className="w-full mt-5 table-auto">
             <thead className="bg-slate-800 text-white">
               <tr>
@@ -38,10 +44,10 @@ export default function ProductsView() {
               ))}
             </tbody>
           </table>
-        </div>
-      ) : (
-        <p>No hay productos</p>
-      )}
+        ) : (
+          <p className="mt-5 text-xl">Agrega tus productos y adminístralos</p>
+        )}
+      </div>
     </>
   );
 }

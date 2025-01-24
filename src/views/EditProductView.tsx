@@ -27,10 +27,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
   if (Object.values(data).includes(""))
     error = "Todos los campos son obligatorios";
   if (error.length) return error;
-  if (params.id !== undefined) {
-    await updateProduct(data, +params.id);
-    return redirect("/");
-  }
+  if (params.id !== undefined) await updateProduct(data, +params.id);
+  return redirect("/");
 }
 
 const availabilityOptions = [
